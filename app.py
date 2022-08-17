@@ -18,8 +18,9 @@ df = pd.DataFrame({ "Fruit": ["Apples", "Oranges",
 fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
 
 app.layout = html.Div(children=[
-    html.H1(children='Hello Dash'), 
-    html.Div(children='''
+	html.H1(children='Neher Data Systems'),
+	html.H2(children='Tyler M. Neher / tyler@neherdata.io'),
+	html.Div(children='''
         Dash: A web application framework for your 
         data.
     '''),
@@ -28,4 +29,4 @@ app.layout = html.Div(children=[
 ])
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True,host= '0.0.0.0')
