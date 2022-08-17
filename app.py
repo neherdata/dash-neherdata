@@ -1,32 +1,26 @@
-# Run this app with `python app.py` and visit 
-# http://127.0.0.1:8050/ in your web browser.
-from dash import Dash, html, dcc
-import plotly.express as px
-import pandas as pd
+from dash import Dash, dcc, html, Input, Output
+import os
 
-app = Dash(__name__)
 
-# assume you have a "long-form" data frame see 
-# https://plotly.com/python/px-arguments/ for more options
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-df = pd.DataFrame({ "Fruit": ["Apples", "Oranges", 
-    "Bananas", "Apples", "Oranges", "Bananas"], 
-    "Amount": [4, 1, 2, 2, 4, 5], "City": ["SF", 
-    "SF", "SF", "Montreal", "Montreal", "Montreal"]
-})
+app = Dash(__name__, external_stylesheets=external_stylesheets)
 
-fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
+server = app.server
 
-app.layout = html.Div(children=[
-	html.H1(children='Neher Data Systems'),
-	html.H2(children='Tyler M. Neher / tyler@neherdata.io'),
-	html.Div(children='''
-        Dash: A web application framework for your 
-        data.
-    '''),
-	dcc.Graph( id='example-graph', figure=fig 
-    )
+app.layout = html.Div([
+    html.H2('Hello World'),
+    dcc.Dropdown(['LA', 'NYC', 'MTL'],
+        'LA',
+        id='dropdown'
+    ),
+    html.Div(id='display-value')
 ])
+
+@app.callback(Output('display-value', 'children'),
+                [Input('dropdown', 'value')])
+def display_value(value):
+    return f'You have selected {value}'
 
 if __name__ == '__main__':
     app.run_server(debug=True,host= '0.0.0.0')
